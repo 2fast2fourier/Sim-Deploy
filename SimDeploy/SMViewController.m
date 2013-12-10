@@ -100,7 +100,11 @@
 		[CATransaction flush];
 	}
 	
-	
+	// Set simulator devices
+    [self.deviceSelectionPopup removeAllItems];
+    [self.deviceSelectionPopup addItemsWithTitles:@[@"iPhone Retina 4\"", @"iPhone Retina 3.5\"", @"iPad", @"iPad Retina"]];
+    
+    [self.simSelectionPopup removeAllItems];
 }
 
 - (IBAction)downloadFromURL:(id)sender
@@ -227,10 +231,8 @@
 
 - (void)checkVersionsAndInstallApp:(SMAppModel *)app
 {
-	SMSimDeployer *deployer = [SMSimDeployer defaultDeployer];
-	
-	NSArray *simulators = deployer.simulators;
-	SMSimulatorModel *sim = [simulators lastObject];
+
+	SMSimulatorModel *sim = [self selectedSimulator];
 	SMAppCompare appCompare = [sim compareInstalledAppsAgainstApp:app installedApp:nil];
 	
 	if (SMAppCompareSame == appCompare) {
@@ -264,12 +266,30 @@
 
 }
 
+- (SMSimulatorModel *)selectedSimulator{
+    NSArray *simulators = [[SMSimDeployer defaultDeployer] simulators];
+    
+    // Update sim menu if necessary
+    if([simulators count] != [[self.simSelectionPopup itemArray] count]){
+        for (SMSimulatorModel *sim in simulators) {
+            [self.simSelectionPopup addItemWithTitle:[sim version]];
+        }
+    }
+    
+    NSInteger selectionIndex = [self.simSelectionPopup indexOfSelectedItem];
+    return [simulators objectAtIndex:selectionIndex];
+}
+
+- (IBAction)updateSelectedSim:(id)sender{
+    // Uncheck the clean install button
+    [self.cleanInstallButton setState:NSOffState];
+    [self setupAppInfoViewWithApp:pendingApp];
+}
+
 - (void)installPendingApp:(id)sender
 {
-	SMSimDeployer *deployer = [SMSimDeployer defaultDeployer];
-	
-	NSArray *simulators = deployer.simulators;
-	SMSimulatorModel *sim = [simulators lastObject];
+
+	SMSimulatorModel *sim = [self selectedSimulator];
 	SMAppCompare appCompare = [sim compareInstalledAppsAgainstApp:self.pendingApp installedApp:nil];
 	
 	void (^installBlock)(void) = ^{
@@ -361,10 +381,6 @@
 	if (nil == app) {
 		NSLog(@"nil!");
 	}
-    
-    // Set simulator devices
-    [self.deviceSelectionPopup removeAllItems];
-    [self.deviceSelectionPopup addItemsWithTitles:@[@"iPhone Retina 4\"", @"iPhone Retina 3.5\"", @"iPad", @"iPad Retina"]];
 	
 	versionsAreTheSame = NO;
 
@@ -379,8 +395,7 @@
 		self.iconView.image = nil;
 	}
 	
-	NSArray *simulators = [[SMSimDeployer defaultDeployer] simulators];
-	SMSimulatorModel *sim = [simulators lastObject];
+	SMSimulatorModel *sim = [self selectedSimulator];
 	SMAppModel *installedApp = nil;
 	SMAppCompare compare = [sim compareInstalledAppsAgainstApp:app installedApp:&installedApp];
 	
@@ -459,8 +474,7 @@
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	NSArray *simulators = [SMSimDeployer defaultDeployer].simulators;
-	SMSimulatorModel *sim = [simulators lastObject];
+	SMSimulatorModel *sim = [self selectedSimulator];
 	SMAppModel *newApp = nil;
 	for (SMAppModel *app in sim.userApplications) {
 		if ([app.identifier isEqualToString:self.pendingApp.identifier]) {

@@ -45,6 +45,7 @@
 @property (nonatomic, retain) IBOutlet NSButton *cancelButton;
 @property (nonatomic, retain) IBOutlet NSButton *installButton;
 @property (nonatomic, retain) IBOutlet NSButton *cleanInstallButton;
+@property (nonatomic, retain) IBOutlet NSPopUpButton *simSelectionPopup;
 @property (nonatomic, retain) IBOutlet NSPopUpButton *deviceSelectionPopup;
 @property (nonatomic, retain) IBOutlet SMIconView *iconView;
 
@@ -61,6 +62,7 @@
 - (void)setAppInfoViewShowing:(BOOL)showing;
 - (void)setupAppInfoViewWithApp:(SMAppModel *)app;
 - (void)checkVersionsAndInstallApp:(SMAppModel *)app;
+- (IBAction)updateSelectedSim:(id)sender;
 - (IBAction)installPendingApp:(id)sender;
 - (void)updateInstallButton;
 

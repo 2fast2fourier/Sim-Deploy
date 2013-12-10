@@ -285,9 +285,7 @@ static NSString * const deviceIpadRetina = @"iPad (Retina)";
 		return simulators;
 	}
 	
-	SMSimulatorModel *sim1 = nil;
-	SMSimulatorModel *sim2 = nil;
-	
+    NSMutableArray *sims = [NSMutableArray array];
 	
 	NSString *simulatorPath = [self simulatorDirectoryPath];
 	NSArray *contents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:simulatorPath error:nil];
@@ -304,28 +302,20 @@ static NSString * const deviceIpadRetina = @"iPad (Retina)";
 		if (nil == sim) {
 			continue;
 		}
-		
-		if (nil == sim1) {
-			sim1 = sim;
-		} else if (nil == sim2) {
-			if ([sim isNewerThan:sim1]) {
-				sim2 = sim;
-			} else {
-				sim2 = sim1;
-				sim1 = sim;				
-			}
-		} else {
-			if ([sim isNewerThan:sim2]) {
-				sim1 = sim2;
-				sim2 = sim;
-			}
-		}
+        
+        [sims addObject:sim];
 	}
+    
+    // Sort by version
+    [sims sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        if([obj1 isNewerThan:obj2])
+            return NSOrderedAscending;
+        else
+            return NSOrderedDescending;
+    }];
 	
-	NSArray *foundSims = @[sim1, sim2];
-	
-	self.simulators = foundSims;
-	return foundSims;
+	self.simulators = [sims copy];
+	return self.simulators;
 }
 
 #pragma mark - 

@@ -371,6 +371,7 @@ Gw
                 <outlet property="mainWindow" destination="666" id="816"/>
                 <outlet property="orLabel" destination="849" id="851"/>
                 <outlet property="progressIndicator" destination="806" id="807"/>
+                <outlet property="simSelectionPopup" destination="j5F-ax-Wwa" id="Ffh-7O-p6Y"/>
                 <outlet property="titleLabel" destination="813" id="815"/>
                 <outlet property="urlLabel" destination="547" id="847"/>
                 <outlet property="versionLabel" destination="731" id="733"/>
@@ -386,7 +387,7 @@ Gw
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </customView>
                 <textField verticalHuggingPriority="750" id="731">
-                    <rect key="frame" x="143" y="141" width="200" height="34"/>
+                    <rect key="frame" x="143" y="158" width="200" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Label" id="732">
                         <font key="font" metaFont="system"/>
@@ -395,7 +396,7 @@ Gw
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" id="763">
-                    <rect key="frame" x="143" y="104" width="200" height="33"/>
+                    <rect key="frame" x="143" y="117" width="200" height="33"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Installed Version" id="764">
                         <font key="font" metaFont="system"/>
@@ -453,7 +454,7 @@ Gw
                     </connections>
                 </button>
                 <popUpButton verticalHuggingPriority="750" id="HWi-KR-OAD">
-                    <rect key="frame" x="145" y="55" width="202" height="28"/>
+                    <rect key="frame" x="143" y="55" width="208" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Devices" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="LTC-I3-Jkp" id="icT-5U-Jt3">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -466,6 +467,24 @@ Gw
                             </items>
                         </menu>
                     </popUpButtonCell>
+                </popUpButton>
+                <popUpButton verticalHuggingPriority="750" id="j5F-ax-Wwa">
+                    <rect key="frame" x="143" y="84" width="208" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <popUpButtonCell key="cell" type="push" title="Simulators" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="apH-AL-izj" id="Ewl-AG-YTu">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" title="OtherViews" id="8nN-bO-D1p">
+                            <items>
+                                <menuItem title="Simulators" state="on" id="apH-AL-izj"/>
+                                <menuItem title="Item 2" id="hVl-Fv-b6J"/>
+                                <menuItem title="Item 3" id="peH-LG-SpW"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <action selector="updateSelectedSim:" target="538" id="lZp-Jf-OmA"/>
+                    </connections>
                 </popUpButton>
             </subviews>
             <connections>
