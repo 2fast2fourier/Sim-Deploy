@@ -34,35 +34,44 @@
 
 - (void)handleURLEvent:(NSAppleEventDescriptor*)event withReplyEvent:(NSAppleEventDescriptor*)replyEvent
 {
-    NSString *urlString = [[event paramDescriptorForKeyword:keyDirectObject] stringValue];
-	NSURL *url = [NSURL URLWithString:urlString];
+    NSMutableString *urlString = [[[event paramDescriptorForKeyword:keyDirectObject] stringValue] mutableCopy];
 	
-	NSMutableDictionary *queryParams = [NSMutableDictionary dictionary];
-	NSArray *components = [[url query] componentsSeparatedByString:@"&"];
-	
-	for (NSString *component in components) {
-		NSArray *pair = [component componentsSeparatedByString:@"="];
-		
-		queryParams[pair[0]] = [pair[1] stringByReplacingPercentEscapesUsingEncoding: NSMacOSRomanStringEncoding]; 
-	}
-	
-	NSString *fetchLocation = queryParams[@"url"];
-		
-	if (nil != fetchLocation) {
-		if (NO == [fetchLocation hasPrefix:@"http://"]) {
-			fetchLocation = [NSString stringWithFormat:@"http://%@", fetchLocation];
-		}
+//	NSMutableDictionary *queryParams = [NSMutableDictionary dictionary];
+//	NSArray *components = [[url query] componentsSeparatedByString:@"&"];
+//	
+//	for (NSString *component in components) {
+//		NSArray *pair = [component componentsSeparatedByString:@"="];
+//		
+//		queryParams[pair[0]] = [pair[1] stringByReplacingPercentEscapesUsingEncoding: NSMacOSRomanStringEncoding]; 
+//	}
+//	
+//	NSString *fetchLocation = queryParams[@"url"];
+//		
+//	if (nil != fetchLocation) {
+//		if (NO == [fetchLocation hasPrefix:@"http://"]) {
+//			fetchLocation = [NSString stringWithFormat:@"http://%@", fetchLocation];
+//		}
+//
+//		[self.viewController downloadURLAtLocation:fetchLocation];
+//		return;
+//	}
+//	
+//	NSString *localFile = queryParams[@"file"];
+//	if (nil != localFile) {
+//		localFile = [localFile stringByExpandingTildeInPath];
+//		[self application:nil openFile:localFile];
+//	}
 
-		[self.viewController downloadURLAtLocation:fetchLocation];
-		return;
-	}
-	
-	NSString *localFile = queryParams[@"file"];
-	if (nil != localFile) {
-		localFile = [localFile stringByExpandingTildeInPath];
-		[self application:nil openFile:localFile];
-	}
-
+    
+    // Modified to always use URL starting after the scheme
+    [urlString replaceOccurrencesOfString:@"simdeploy://" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, urlString.length)];
+    
+    if (![urlString hasPrefix:@"http://"] && ![urlString hasPrefix:@"https://"]) {
+        [urlString insertString:@"http://" atIndex:0];
+    }
+    
+    [self.viewController downloadURLAtLocation:urlString];
+    return;
 }
 
 // Handle a file dropped on the dock icon
