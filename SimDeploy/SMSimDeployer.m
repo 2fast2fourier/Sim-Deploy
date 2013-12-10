@@ -18,7 +18,13 @@
 /* Load a class from the runtime-loaded iPhoneSimulatorRemoteClient framework */
 #define C(name) NSClassFromString(@"" #name)
 
-
+static NSString * const simulatorPrefrencesName = @"com.apple.iphonesimulator";
+static NSString * const deviceProperty = @"SimulateDevice";
+static NSString * const deviceIphoneRetina3_5Inch = @"iPhone Retina (3.5-inch)";
+static NSString * const deviceIphoneRetina4_0Inch = @"iPhone Retina (4-inch)";
+static NSString * const deviceIphone = @"iPhone";
+static NSString * const deviceIpad = @"iPad";
+static NSString * const deviceIpadRetina = @"iPad (Retina)";
 
 @implementation SMSimDeployer
 
@@ -68,6 +74,30 @@
 	return self;
 }
 
+- (void)changeDeviceType:(NSString *)family retina:(BOOL)retina isTallDevice:(BOOL)isTallDevice {
+    NSString *devicePropertyValue;
+    if (retina) {
+        if ([family isEqualToString:@"ipad"]) {
+            devicePropertyValue = deviceIpadRetina;
+        }
+        else {
+            if (isTallDevice) {
+                devicePropertyValue = deviceIphoneRetina4_0Inch;
+            } else {
+                devicePropertyValue = deviceIphoneRetina3_5Inch;
+            }
+        }
+    } else {
+        if ([family isEqualToString:@"ipad"]) {
+            devicePropertyValue = deviceIpad;
+        } else {
+            devicePropertyValue = deviceIphone;
+        }
+    }
+    CFPreferencesSetAppValue((__bridge CFStringRef)deviceProperty, (__bridge CFPropertyListRef)devicePropertyValue, (__bridge CFStringRef)simulatorPrefrencesName);
+    CFPreferencesAppSynchronize((__bridge CFStringRef)simulatorPrefrencesName);
+}
+
 - (void)launchiOSSimulator
 {
 	[[NSWorkspace sharedWorkspace] launchApplication:@"iPhone Simulator.app"];
@@ -94,7 +124,7 @@
 }
 
 
-- (void)launchApplication:(SMAppModel *)app
+- (void)launchApplication:(SMAppModel *)app retina:(BOOL)retina tall:(BOOL)tall deviceType:(NSString *)dType
 {
 	if (nil == app) {
 		return;
@@ -133,27 +163,9 @@
 		
 		[config setLocalizedClientName:@"Sim Deploy"];
 		
-		// this was introduced in 3.2 of SDK
-		if ([config respondsToSelector:@selector(setSimulatedDeviceFamily:)])
-		{
-			//		if (family == nil)
-			//		{
-			//			family = @"iphone";
-			//		}
-			
-			//		nsprintf(@"using device family %@",family);
-			
-			//		if ([family isEqualToString:@"ipad"])
-			//		{
-			//			[config setSimulatedDeviceFamily:[NSNumber numberWithInt:2]];
-			//		}
-			//		else
-			//		{
-			//			[config setSimulatedDeviceFamily:[NSNumber numberWithInt:1]];
-			//		}
-			
-			[config setSimulatedDeviceFamily:@2];
-		}
+        [config setSimulatedDeviceFamily:([dType isEqualToString:@"iphone"]) ? @1 : @2];
+        
+        [self changeDeviceType:dType retina:retina isTallDevice:tall];
 		
 		/* Start the session */
 		session = [[DTiPhoneSimulatorSession alloc] init];
@@ -506,8 +518,10 @@
 
 // from DTiPhoneSimulatorSessionDelegate protocol
 - (void) session: (DTiPhoneSimulatorSession *)aSession didStart: (BOOL) started withError: (NSError *) error {
-	NSLog(@"Error starting simulator: %@", error);
-	session = nil;
+    if(!started){
+        NSLog(@"Error starting simulator: %@", error);
+        session = nil;
+    }
 }
 
 

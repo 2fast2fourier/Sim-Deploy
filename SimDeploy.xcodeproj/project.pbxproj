@@ -45,7 +45,6 @@
 		C414080114BE0A9E002B8B32 /* unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = C41407FF14BE0A9E002B8B32 /* unchecked.png */; };
 		C482EDBF14BBF95B00A713D5 /* SMAppInstallView.m in Sources */ = {isa = PBXBuildFile; fileRef = C482EDBE14BBF95B00A713D5 /* SMAppInstallView.m */; };
 		C482EDEE14BC13C400A713D5 /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C482EDED14BC13C400A713D5 /* ScriptingBridge.framework */; };
-		C482EDF614BC240900A713D5 /* iPhoneSimulator.m in Sources */ = {isa = PBXBuildFile; fileRef = C482EDF514BC240900A713D5 /* iPhoneSimulator.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -120,6 +119,7 @@
 		3DEAE83414AE964A00D239B4 /* SMSimDeployer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSimDeployer.m; sourceTree = "<group>"; };
 		3DEAE83614B011B300D239B4 /* SMAppModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAppModel.h; sourceTree = "<group>"; };
 		3DEAE83714B011B300D239B4 /* SMAppModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMAppModel.m; sourceTree = "<group>"; };
+		98E6DBAB18578CB000BFE3FB /* version.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		C41407FE14BE0A9E002B8B32 /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
 		C41407FF14BE0A9E002B8B32 /* unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked.png; sourceTree = "<group>"; };
 		C482EDBD14BBF95B00A713D5 /* SMAppInstallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAppInstallView.h; sourceTree = "<group>"; };
@@ -349,6 +349,7 @@
 		C482EDF314BC240900A713D5 /* Simulator */ = {
 			isa = PBXGroup;
 			children = (
+				98E6DBAB18578CB000BFE3FB /* version.h */,
 				C482EDF414BC240900A713D5 /* iPhoneSimulator.h */,
 				C482EDF514BC240900A713D5 /* iPhoneSimulator.m */,
 			);
@@ -448,7 +449,6 @@
 				3D97867C14B6D83D00F01009 /* PFMoveApplication.m in Sources */,
 				3D97867D14B6D83D00F01009 /* NSString+SymlinksAndAliases.m in Sources */,
 				C482EDBF14BBF95B00A713D5 /* SMAppInstallView.m in Sources */,
-				C482EDF614BC240900A713D5 /* iPhoneSimulator.m in Sources */,
 				3D54B796166BF454006B67F9 /* KGNoise.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

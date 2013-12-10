@@ -11,6 +11,9 @@
 #import "SMSimulatorModel.h"
 #import "iPhoneSimulator.h"
 
+static NSString * const kDeviceTypePhone = @"iphone";
+static NSString * const kDeviceTypeiPad = @"ipad";
+
 @interface SMSimDeployer : NSObject <NSURLDownloadDelegate, DTiPhoneSimulatorSessionDelegate>
 {
 	void (^downloadCompletionBlock)(BOOL);
@@ -39,7 +42,7 @@
 - (void)launchiOSSimulator;
 - (void)killiOSSimulator;
 - (void)restartiOSSimulator;
-- (void)launchApplication:(SMAppModel *)app;
+- (void)launchApplication:(SMAppModel *)app retina:(BOOL)retina tall:(BOOL)tall deviceType:(NSString *)dType;
 - (void)killApp:(SMAppModel *)app;
 
 

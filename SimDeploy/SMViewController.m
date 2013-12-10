@@ -361,6 +361,10 @@
 	if (nil == app) {
 		NSLog(@"nil!");
 	}
+    
+    // Set simulator devices
+    [self.deviceSelectionPopup removeAllItems];
+    [self.deviceSelectionPopup addItemsWithTitles:@[@"iPhone Retina 4\"", @"iPhone Retina 3.5\"", @"iPad", @"iPad Retina"]];
 	
 	versionsAreTheSame = NO;
 
@@ -442,6 +446,17 @@
 	
 }
 
+- (BOOL)string:(NSString *)string containsSubstring:(NSString *)substring caseSensitive:(BOOL)caseSen{
+	if([string length] == 0 || [substring length] == 0)
+		return NO;
+	NSRange textRange;
+	if(caseSen)
+		textRange = [string rangeOfString:substring];
+	else
+		textRange = [[string uppercaseString] rangeOfString:[substring uppercaseString]];
+	return (textRange.location != NSNotFound);
+}
+
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	NSArray *simulators = [SMSimDeployer defaultDeployer].simulators;
@@ -452,14 +467,30 @@
 			newApp = app;
 		}
 	}
+    
+    NSString *selectedDevice = [[self.deviceSelectionPopup selectedItem] title];
+    NSString *type = nil;
+    BOOL retina = NO;
+    BOOL tall = NO;
+    
+    if([self string:selectedDevice containsSubstring:@"iphone" caseSensitive:NO]){
+        // iPhone
+        type = kDeviceTypePhone;
+        retina = [self string:selectedDevice containsSubstring:@"retina" caseSensitive:NO];
+        tall = [self string:selectedDevice containsSubstring:@"4\"" caseSensitive:NO];
+    } else {
+        // iPad
+        type = kDeviceTypeiPad;
+        retina = [self string:selectedDevice containsSubstring:@"retina" caseSensitive:NO];
+    }
 	
 	if ([NSNull null] == (__bridge NSNull *)contextInfo) {
 		if (returnCode == NSAlertFirstButtonReturn) {
-			[[SMSimDeployer defaultDeployer] launchApplication:newApp];	
+			[[SMSimDeployer defaultDeployer] launchApplication:newApp retina:retina tall:tall deviceType:type];
 		}		
 	} else {
 		if (returnCode == NSAlertFirstButtonReturn) {
-			[[SMSimDeployer defaultDeployer] launchApplication:newApp];	
+			[[SMSimDeployer defaultDeployer] launchApplication:newApp retina:retina tall:tall deviceType:type];
 		}
 	}
 		

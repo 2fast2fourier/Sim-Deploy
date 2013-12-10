@@ -45,6 +45,7 @@
 @property (nonatomic, retain) IBOutlet NSButton *cancelButton;
 @property (nonatomic, retain) IBOutlet NSButton *installButton;
 @property (nonatomic, retain) IBOutlet NSButton *cleanInstallButton;
+@property (nonatomic, retain) IBOutlet NSPopUpButton *deviceSelectionPopup;
 @property (nonatomic, retain) IBOutlet SMIconView *iconView;
 
 @property (nonatomic, retain) IBOutlet NSPanel *installPanel;
