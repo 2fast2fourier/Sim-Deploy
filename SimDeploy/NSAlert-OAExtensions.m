@@ -8,65 +8,7 @@
 #import "NSAlert-OAExtensions.h"
 
 
-
-
-@interface _OAAlertSheetCompletionHandlerRunner : NSObject
-{
-    NSAlert *_alert;
-    OAAlertSheetCompletionHandler _completionHandler;
-}
-@end
-@implementation _OAAlertSheetCompletionHandlerRunner
-- initWithAlert:(NSAlert *)alert completionHandler:(OAAlertSheetCompletionHandler)completionHandler;
-{
-    if (!(self = [super init]))
-        return nil;
-    
-    _alert = [alert retain];
-    _completionHandler = [completionHandler copy];
-    return self;
-}
-- (void)dealloc;
-{
-    [_alert release];
-    [_completionHandler release];
-    [super dealloc];
-}
-
-- (void)startOnWindow:(NSWindow *)parentWindow;
-{
-    // We have to live until the callback, but a -retain will annoy clang-sa.
-	[self performSelector:@selector(retain)];
-    [_alert beginSheetModalForWindow:parentWindow modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:NULL];
-}
-
-- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
-{
-    NSAssert(alert == _alert,@"Got a alert different from what I expected -- This should never happen");
-    
-    // Clean up the hidden -retain from -startOnWindow:, first and with -autorelease in case the block asplodes.
-    [self performSelector:@selector(autorelease)];
-    
-    if (_completionHandler) {
-		double delayInSeconds = 0.1;
-	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        _completionHandler(_alert, returnCode);
-	});
-	}
-
-}
-
-@end
-
 @implementation NSAlert (OAExtensions)
-
-- (void)beginSheetModalForWindow:(NSWindow *)window completionHandler:(OAAlertSheetCompletionHandler)completionHandler;
-{
-    _OAAlertSheetCompletionHandlerRunner *runner = [[_OAAlertSheetCompletionHandlerRunner alloc] initWithAlert:self completionHandler:completionHandler];
-    [runner startOnWindow:window];
-    [runner release];
-}
 
 + (void)beginAlertSheet:(NSString *)title message:(NSString *)message defaultButton:(NSString *)defaultButton alternateButton:(NSString *)alternate otherButton:(NSString *)other window:(NSWindow *)window completion:(OAAlertSheetCompletionHandler)completion
 {
@@ -87,8 +29,6 @@
 }
 
 @end
-
-
 
 void OABeginAlertSheet(NSString *title, NSString *defaultButton, NSString *alternateButton, NSString *otherButton, NSWindow *docWindow, OAAlertSheetCompletionHandler completionHandler, NSString *msgFormat, ...)
 {

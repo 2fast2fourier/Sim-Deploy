@@ -249,7 +249,7 @@
 				 alternateButton:@"Cancel" 
 					 otherButton:nil 
 						  window:[NSApp mainWindow] 
-					  completion:^(NSAlert *alert, NSInteger returnCode) {
+					  completion:^(NSInteger returnCode) {
 						  if (returnCode == NSAlertFirstButtonReturn) {
 							  [[SMSimDeployer defaultDeployer] installApplication:app clean:YES completion:nil];							  
 							  [self showRestartAlertIfNeeded];
@@ -297,7 +297,7 @@
 				 alternateButton:@"Cancel" 
 					 otherButton:nil 
 						  window:[NSApp mainWindow] 
-					  completion:^(NSAlert *alert, NSInteger returnCode) {
+					  completion:^(NSInteger returnCode) {
 						  if (returnCode == NSAlertFirstButtonReturn) {
 							  installBlock();
 						  }

@@ -9,10 +9,9 @@
 
 #import <AppKit/NSAlert.h>
 
-typedef void (^OAAlertSheetCompletionHandler)(NSAlert *alert, NSInteger returnCode);
+typedef void (^OAAlertSheetCompletionHandler)(NSModalResponse returnCode);
 
 @interface NSAlert (OAExtensions)
-- (void)beginSheetModalForWindow:(NSWindow *)window completionHandler:(OAAlertSheetCompletionHandler)completionHandler;
 + (void)beginAlertSheet:(NSString *)title message:(NSString *)message defaultButton:(NSString *)defaultButton alternateButton:(NSString *)alternate otherButton:(NSString *)other window:(NSWindow *)window completion:(OAAlertSheetCompletionHandler)completion;
 
 @end
