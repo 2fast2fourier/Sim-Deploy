@@ -30,7 +30,6 @@
 	self.infoDictionary = [NSDictionary alloc];
     
 	NSString* apkInfo = [self dumpApk:path];
-    NSLog(apkInfo);
     
     NSRegularExpression *nameRegex = [NSRegularExpression regularExpressionWithPattern:@"application-label:'([^']+)'" options:0 error:nil];
     NSTextCheckingResult *nameDump = [nameRegex firstMatchInString:apkInfo options:0 range:NSMakeRange(0, [apkInfo length])];
@@ -59,9 +58,7 @@
     NSRegularExpression *packIDRegex = [NSRegularExpression regularExpressionWithPattern:@"package:\\s*name='([^']+)'" options:0 error:nil];
     NSTextCheckingResult *packIdDump = [packIDRegex firstMatchInString:apkInfo options:0 range:NSMakeRange(0, [apkInfo length])];
     if(packIdDump){
-        self.identifier = [apkInfo substringWithRange:[packIdDump rangeAtIndex:1]];
-        NSLog(self.identifier);
-    }else{
+        self.identifier = [apkInfo substringWithRange:[packIdDump rangeAtIndex:1]];    }else{
         self.identifier = @"Unknown";
     }
 	
@@ -76,39 +73,39 @@
     
     //expand folder to extract icon
     NSString *apkArchivePath = [self extractApk:path];
-    
-    NSRegularExpression *iconRegex = [NSRegularExpression regularExpressionWithPattern:@"application-icon-\\d*:'([^']+)'" options:0 error:nil];
-    NSTextCheckingResult *iconDump = [iconRegex firstMatchInString:apkInfo options:0 range:NSMakeRange(0, [apkInfo length])];
-    if(iconDump){
-        NSString *iconRes = [apkInfo substringWithRange:[iconDump rangeAtIndex:1]];
-        self.iconPath = [apkArchivePath stringByAppendingPathComponent:iconRes];
-        NSLog(self.iconPath);
-    }else{
-        self.iconPath = nil;
-    }
-    
+//    NSTextCheckingResult *iconDump = [iconRegex firstMatchInString:apkInfo options:0 range:NSMakeRange(0, [apkInfo length])];
+//    if(iconDump){
+//        NSString *iconRes = [apkInfo substringWithRange:[iconDump rangeAtIndex:1]];
+//        self.iconPath = [apkArchivePath stringByAppendingPathComponent:iconRes];
+//        
+//    }else{
+//        self.iconPath = nil;
+//    }
     
 	// Find biggest icon file
-    //	NSString *biggestIconPath = nil;
-    //	NSSize biggestSize = NSMakeSize(0.0f, 0.0f);
-    //	for (NSString *iconName in infoDictionary[@"CFBundleIconFiles"]) {
-    //
-//    NSString *imgpath = @"";//[self.mainBundle.bundlePath stringByAppendingPathComponent:iconName];
-//    NSImage *image = [[NSImage alloc] initWithContentsOfFile:imgpath];
-//    NSSize imageSize = [image size];
-//		NSString *nameWithoutExtension = [iconName stringByDeletingPathExtension];
-//		if ([nameWithoutExtension hasSuffix:@"@2x"]) {
-//			imageSize.width *= 2.0f;
-//			imageSize.height *= 2.0f;
-//		}
-//		
-//		if (imageSize.width > biggestSize.width || imageSize.height > biggestSize.height) {
-//			biggestIconPath = path;
-//			biggestSize = imageSize;
-//		}
-//	}
-//	
-//	self.iconPath = biggestIconPath;
+    NSString *biggestIconPath = nil;
+    NSSize biggestSize = NSMakeSize(0.0f, 0.0f);
+    
+    NSRegularExpression *iconRegex = [NSRegularExpression regularExpressionWithPattern:@"application-icon-\\d*:'([^']+)'" options:0 error:nil];
+    NSArray *icons = [iconRegex matchesInString:apkInfo options:0 range:NSMakeRange(0, [apkInfo length])];
+    
+    for(NSTextCheckingResult *icon in icons){
+        NSString *imgPath = [apkArchivePath stringByAppendingPathComponent:[apkInfo substringWithRange:[icon rangeAtIndex:1]]];
+        NSImage *image = [[NSImage alloc] initWithContentsOfFile:imgPath];
+        NSSize imageSize = [image size];
+		if (imageSize.width > biggestSize.width || imageSize.height > biggestSize.height) {
+			biggestIconPath = imgPath;
+			biggestSize = imageSize;
+		}
+    }
+	self.iconPath = biggestIconPath;
+    
+    
+    NSLog(@"name: %@", self.name);
+    NSLog(@"version: %@", self.version);
+    NSLog(@"marketingVersion: %@", self.marketingVersion);
+    NSLog(@"id: %@", self.identifier);
+    NSLog(@"finalIcon: %@", self.iconPath);
 	
 	return self;
 }
