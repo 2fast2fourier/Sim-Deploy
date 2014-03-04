@@ -33,7 +33,7 @@
 		3D97868114B6D8CD00F01009 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D97868014B6D8CD00F01009 /* Security.framework */; };
 		3D97868214B6D91500F01009 /* MoveApplication.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3D97868414B6D91500F01009 /* MoveApplication.strings */; };
 		3D97868814B75C3900F01009 /* DropRect.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D97868714B75C3900F01009 /* DropRect.png */; };
-		3D97869314B8DE8000F01009 /* SimDeploy.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3D97869214B8DE8000F01009 /* SimDeploy.icns */; };
+		3D97869314B8DE8000F01009 /* AndDeploy.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3D97869214B8DE8000F01009 /* AndDeploy.icns */; };
 		3DB7748A14B36CBD0042BD98 /* NSAlert-OAExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7748914B36CBD0042BD98 /* NSAlert-OAExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3DB7749B14B400580042BD98 /* SMFileDragView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB7749A14B400580042BD98 /* SMFileDragView.m */; };
 		3DD744EC14B52B3C00EA0A46 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DD744EB14B52B3C00EA0A46 /* QuartzCore.framework */; };
@@ -112,7 +112,7 @@
 		3D97868014B6D8CD00F01009 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		3D97868314B6D91500F01009 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MoveApplication.strings; sourceTree = "<group>"; };
 		3D97868714B75C3900F01009 /* DropRect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DropRect.png; sourceTree = "<group>"; };
-		3D97869214B8DE8000F01009 /* SimDeploy.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = SimDeploy.icns; sourceTree = "<group>"; };
+		3D97869214B8DE8000F01009 /* AndDeploy.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AndDeploy.icns; sourceTree = "<group>"; };
 		3DB7748814B36CBD0042BD98 /* NSAlert-OAExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAlert-OAExtensions.h"; sourceTree = "<group>"; };
 		3DB7748914B36CBD0042BD98 /* NSAlert-OAExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAlert-OAExtensions.m"; sourceTree = "<group>"; };
 		3DB7749914B400580042BD98 /* SMFileDragView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMFileDragView.h; sourceTree = "<group>"; };
@@ -125,10 +125,10 @@
 		3DEAE81914AE94E400D239B4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		3DEAE81A14AE94E400D239B4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3DEAE81B14AE94E400D239B4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		3DEAE81E14AE94E400D239B4 /* SimDeploy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SimDeploy-Info.plist"; sourceTree = "<group>"; };
+		3DEAE81E14AE94E400D239B4 /* AndDeploy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AndDeploy-Info.plist"; sourceTree = "<group>"; };
 		3DEAE82014AE94E400D239B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3DEAE82214AE94E400D239B4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		3DEAE82414AE94E400D239B4 /* SimDeploy-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimDeploy-Prefix.pch"; sourceTree = "<group>"; };
+		3DEAE82414AE94E400D239B4 /* AndDeploy-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AndDeploy-Prefix.pch"; sourceTree = "<group>"; };
 		3DEAE82814AE94E400D239B4 /* SMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SMAppDelegate.h; sourceTree = "<group>"; };
 		3DEAE82914AE94E400D239B4 /* SMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SMAppDelegate.m; sourceTree = "<group>"; };
 		3DEAE82C14AE94E400D239B4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -192,7 +192,7 @@
 		3D41574D14B421FB002EF5D8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3D97869214B8DE8000F01009 /* SimDeploy.icns */,
+				3D97869214B8DE8000F01009 /* AndDeploy.icns */,
 				3D97868414B6D91500F01009 /* MoveApplication.strings */,
 				C41407FE14BE0A9E002B8B32 /* checked.png */,
 				3D54B739166BF1C4006B67F9 /* checked@2x.png */,
@@ -292,7 +292,7 @@
 		3DEAE80714AE94E400D239B4 = {
 			isa = PBXGroup;
 			children = (
-				3DEAE81C14AE94E400D239B4 /* SimDeploy */,
+				3DEAE81C14AE94E400D239B4 /* AndDeploy */,
 				3DEAE81D14AE94E400D239B4 /* Supporting Files */,
 				3DEAE81514AE94E400D239B4 /* Frameworks */,
 				3DEAE81314AE94E400D239B4 /* Products */,
@@ -331,7 +331,7 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		3DEAE81C14AE94E400D239B4 /* SimDeploy */ = {
+		3DEAE81C14AE94E400D239B4 /* AndDeploy */ = {
 			isa = PBXGroup;
 			children = (
 				3DC59E74165B5B0C004C7972 /* Application */,
@@ -347,6 +347,7 @@
 				C482EDBD14BBF95B00A713D5 /* SMAppInstallView.h */,
 				C482EDBE14BBF95B00A713D5 /* SMAppInstallView.m */,
 			);
+			name = AndDeploy;
 			path = SimDeploy;
 			sourceTree = "<group>";
 		};
@@ -356,10 +357,10 @@
 				08055F5318C532CC004D4F1E /* aapt */,
 				08055F4F18C5321D004D4F1E /* adb */,
 				3D41574D14B421FB002EF5D8 /* Resources */,
-				3DEAE81E14AE94E400D239B4 /* SimDeploy-Info.plist */,
+				3DEAE81E14AE94E400D239B4 /* AndDeploy-Info.plist */,
 				3DEAE81F14AE94E400D239B4 /* InfoPlist.strings */,
 				3DEAE82214AE94E400D239B4 /* main.m */,
-				3DEAE82414AE94E400D239B4 /* SimDeploy-Prefix.pch */,
+				3DEAE82414AE94E400D239B4 /* AndDeploy-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			path = SimDeploy;
@@ -405,9 +406,9 @@
 			attributes = {
 				CLASSPREFIX = SM;
 				LastUpgradeCheck = 0500;
-				ORGANIZATIONNAME = "Spaceman Labs";
+				ORGANIZATIONNAME = "Spaceman Labs/Bitsuites";
 			};
-			buildConfigurationList = 3DEAE80C14AE94E400D239B4 /* Build configuration list for PBXProject "SimDeploy" */;
+			buildConfigurationList = 3DEAE80C14AE94E400D239B4 /* Build configuration list for PBXProject "AndDeploy" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -434,7 +435,7 @@
 				3D5F1CA514B4B1F50017D6C3 /* dsa_pub.pem in Resources */,
 				3D97868214B6D91500F01009 /* MoveApplication.strings in Resources */,
 				3D97868814B75C3900F01009 /* DropRect.png in Resources */,
-				3D97869314B8DE8000F01009 /* SimDeploy.icns in Resources */,
+				3D97869314B8DE8000F01009 /* AndDeploy.icns in Resources */,
 				08055F5018C5321D004D4F1E /* adb in Resources */,
 				C414080014BE0A9E002B8B32 /* checked.png in Resources */,
 				C414080114BE0A9E002B8B32 /* unchecked.png in Resources */,
@@ -583,16 +584,16 @@
 					"\"$(SRCROOT)\"/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SimDeploy/SimDeploy-Prefix.pch";
+				GCC_PREFIX_HEADER = "SimDeploy/AndDeploy-Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				HEADER_SEARCH_PATHS = (
 					"\".\"/**",
 					"\"$(SRCROOT)/Sparkle.framework\"/**",
 				);
-				INFOPLIST_FILE = "SimDeploy/SimDeploy-Info.plist";
+				INFOPLIST_FILE = "SimDeploy/AndDeploy-Info.plist";
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
 				INFOPLIST_PREPROCESS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
 					"-framework",
 					AppKit,
@@ -620,16 +621,16 @@
 					"\"$(SRCROOT)\"/**",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SimDeploy/SimDeploy-Prefix.pch";
+				GCC_PREFIX_HEADER = "SimDeploy/AndDeploy-Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				HEADER_SEARCH_PATHS = (
 					"\".\"/**",
 					"\"$(SRCROOT)/Sparkle.framework\"/**",
 				);
-				INFOPLIST_FILE = "SimDeploy/SimDeploy-Info.plist";
+				INFOPLIST_FILE = "SimDeploy/AndDeploy-Info.plist";
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
 				INFOPLIST_PREPROCESS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_LDFLAGS = (
 					"-framework",
 					AppKit,
@@ -649,7 +650,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3DEAE80C14AE94E400D239B4 /* Build configuration list for PBXProject "SimDeploy" */ = {
+		3DEAE80C14AE94E400D239B4 /* Build configuration list for PBXProject "AndDeploy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3DEAE82E14AE94E400D239B4 /* Debug */,

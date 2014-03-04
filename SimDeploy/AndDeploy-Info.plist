@@ -44,9 +44,9 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>SimDeploy.icns</string>
+	<string>AndDeploy</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.SpacemanLabs.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>com.bitsuites.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

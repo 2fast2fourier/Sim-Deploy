@@ -129,12 +129,9 @@
 {
 	
 	NSString *filename = [url lastPathComponent];
-	if ([filename hasSuffix:@".apk"]) {
+	if ([filename hasSuffix:@".zip"] || [filename hasSuffix:@".apk"]) {
 		return YES;
 	}
-//	if ([filename hasSuffix:@".zip"] || [filename hasSuffix:@".apk"]) {
-//		return YES;
-//	}
 	
 	// Allow Directories to be opened
 //	BOOL directory = NO;
