@@ -102,9 +102,15 @@
 	
 	// Set simulator devices
     [self.deviceSelectionPopup removeAllItems];
-    [self.deviceSelectionPopup addItemsWithTitles:@[@"iPhone Retina 4\"", @"iPhone Retina 3.5\"", @"iPad", @"iPad Retina"]];
+    [self.deviceSelectionPopup addItemsWithTitles:[self deviceList]];
     
     [self.simSelectionPopup removeAllItems];
+}
+
+- (IBAction)refreshDevices:(id)sender {
+    [self.deviceSelectionPopup removeAllItems];
+    [self.deviceSelectionPopup addItemsWithTitles:[self deviceList]];
+    [self.refreshButton setState:NSOnState];
 }
 
 - (IBAction)downloadFromURL:(id)sender
@@ -288,18 +294,68 @@
 
 - (void)installPendingApp:(id)sender
 {
+    NSString* deviceString = self.deviceSelectionPopup.selectedItem.title;
+    
+    NSRegularExpression *deviceRegex = [NSRegularExpression regularExpressionWithPattern:@"\\[(.+)\\]" options:0 error:nil];
+    NSTextCheckingResult *deviceMatch = [deviceRegex firstMatchInString:deviceString options:0 range:NSMakeRange(0, [deviceString length])];
+    if(deviceMatch){
+        deviceString = [deviceString substringWithRange:[deviceMatch rangeAtIndex:1]];
+    }else{
+        NSLog(@"ERROR: Device not found!");
+        [NSAlert beginAlertSheet:@"Error: No device selected!"
+						 message:@"Please plug in a device and press refresh."
+				   defaultButton:@"Ok"
+				 alternateButton:nil
+					 otherButton:nil
+						  window:[NSApp mainWindow]
+					  completion:^(NSInteger returnCode) {
+                          [self refreshDevices:nil];
+					  }];
+        return;
+    }
 	[[NSApplication sharedApplication] beginSheet:self.installPanel
-                                       modalForWindow:self.mainWindow
-									   modalDelegate:nil
-								       didEndSelector:nil
-                                       contextInfo:nil];
+                                   modalForWindow:self.mainWindow
+                                    modalDelegate:nil
+                                   didEndSelector:nil
+                                      contextInfo:nil];
+    
+    
+    if(self.cleanInstallButton.state == NSOnState){
+        
+        NSLog(@"Uninstalling old APK: %@", self.pendingApp.identifier);
+        NSBundle *bundle = [NSBundle mainBundle];
+        NSString *adbPath = [bundle pathForAuxiliaryExecutable: @"adb"];
+        NSTask *task = [[NSTask alloc] init];
+        NSPipe *outputPipe = [NSPipe pipe];
+        NSArray *args = [NSArray arrayWithObjects: @"-s", deviceString, @"uninstall", self.pendingApp.identifier, nil];
+        NSFileHandle *outputHandle = [outputPipe fileHandleForReading];
+        [task setStandardOutput: outputPipe];
+        [task setLaunchPath: adbPath];
+        [task setArguments: args];
+        
+        [task launch];
+        
+        NSMutableData *data = [[NSMutableData alloc] init];
+        NSData *readData;
+        
+        while ((readData = [outputHandle availableData])
+               && [readData length]) {
+            [data appendData: readData];
+        }
+        
+        NSString *outputString;
+        outputString = [[NSString alloc]
+                        initWithData: data
+                        encoding: NSASCIIStringEncoding];
+        NSLog(@"Result: %@", outputString);
+    }
     
     NSLog(@"Installing APK: %@", self.pendingApp.apkPath);
     NSBundle *bundle = [NSBundle mainBundle];
     NSString *adbPath = [bundle pathForAuxiliaryExecutable: @"adb"];
     NSTask *task = [[NSTask alloc] init];
     NSPipe *outputPipe = [NSPipe pipe];
-    NSArray *args = [NSArray arrayWithObjects: @"install", @"-r", self.pendingApp.apkPath, nil];
+    NSArray *args = [NSArray arrayWithObjects: @"-s", deviceString, @"install", @"-r", self.pendingApp.apkPath, nil];
     NSFileHandle *outputHandle = [outputPipe fileHandleForReading];
     [task setStandardOutput: outputPipe];
     [task setLaunchPath: adbPath];
@@ -324,8 +380,6 @@
     
 	[NSApp endSheet:self.installPanel];
 	[self.installPanel orderOut:nil];
-    
-    
     
     NSRegularExpression *resultRegex = [NSRegularExpression regularExpressionWithPattern:@"Failure\\s*\\[([^\\]]+)\\]" options:0 error:nil];
     NSTextCheckingResult *resultMatch = [resultRegex firstMatchInString:outputString options:0 range:NSMakeRange(0, [outputString length])];
@@ -617,6 +671,49 @@
 	[self setAppInfoViewShowing:NO];
 }
 
+
+
+- (NSArray *)deviceList
+{
+    NSMutableArray *devs = [NSMutableArray array];
+    
+    NSLog(@"Discovering devices");
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSString *adbPath = [bundle pathForAuxiliaryExecutable: @"adb"];
+    NSTask *task = [[NSTask alloc] init];
+    NSPipe *outputPipe = [NSPipe pipe];
+    NSArray *args = [NSArray arrayWithObjects: @"devices", @"-l", nil];
+    NSFileHandle *outputHandle = [outputPipe fileHandleForReading];
+    [task setStandardOutput: outputPipe];
+    [task setLaunchPath: adbPath];
+    [task setArguments: args];
+    
+    [task launch];
+    
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSData *readData;
+    
+    while ((readData = [outputHandle availableData])
+           && [readData length]) {
+        [data appendData: readData];
+    }
+    
+    NSString *outputString;
+    outputString = [[NSString alloc]
+                    initWithData: data
+                    encoding: NSASCIIStringEncoding];
+    NSLog(@"Result: %@", outputString);
+    
+	
+    NSRegularExpression *deviceRegex = [NSRegularExpression regularExpressionWithPattern:@"(\\S+)\\s+device\\s+\\S+\\s+\\S+\\s+model:(\\S+)" options:0 error:nil];
+    NSArray *deviceIDs = [deviceRegex matchesInString:outputString options:0 range:NSMakeRange(0, [outputString length])];
+    
+    for(NSTextCheckingResult *devId in deviceIDs){
+        [devs addObject:[NSString stringWithFormat:@"%@ [%@]", [outputString substringWithRange:[devId rangeAtIndex:2]], [outputString substringWithRange:[devId rangeAtIndex:1]]]];
+    }
+	
+	return [devs copy];
+}
 
 #pragma mark - Accessors
 

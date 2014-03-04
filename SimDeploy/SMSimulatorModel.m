@@ -55,10 +55,10 @@
 			continue;
 		}
 		
-		NSArray *guidContents = [fm contentsOfDirectoryAtPath:guidPath error:nil];
+//		NSArray *guidContents = [fm contentsOfDirectoryAtPath:guidPath error:nil];
 		
-		for (NSString *appBundlePath in guidContents) {
-			NSString *fullPath = [guidPath stringByAppendingPathComponent:appBundlePath];
+//		for (NSString *appBundlePath in guidContents) {
+//			NSString *fullPath = [guidPath stringByAppendingPathComponent:appBundlePath];
 //			NSBundle *bundle = [NSBundle bundleWithPath:fullPath];
 			
 			
@@ -66,7 +66,7 @@
 //			if (nil != appModel) {
 //				[applications addObject:appModel];
 //			}
-		}
+//		}
 	}
 
 	self.userApplications = applications;

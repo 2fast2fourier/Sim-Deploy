@@ -43,6 +43,7 @@
 @property (nonatomic, retain) IBOutlet NSTextField *versionLabel;
 @property (nonatomic, retain) IBOutlet NSTextField *installedVersionLabel;
 @property (nonatomic, retain) IBOutlet NSButton *cancelButton;
+@property (unsafe_unretained) IBOutlet NSButton *refreshButton;
 @property (nonatomic, retain) IBOutlet NSButton *installButton;
 @property (nonatomic, retain) IBOutlet NSButton *cleanInstallButton;
 @property (nonatomic, retain) IBOutlet NSPopUpButton *simSelectionPopup;
@@ -53,6 +54,8 @@
 @property (nonatomic, retain) IBOutlet NSTextField *installTitleLabel;
 @property (nonatomic, retain) IBOutlet NSTextField *installMessageLabel;
 @property (nonatomic, retain) IBOutlet NSProgressIndicator *installProgressIndicator;
+
+- (IBAction)refreshDevices:(id)sender;
 
 - (IBAction)downloadFromURL:(id)sender;
 - (IBAction)cancelDownloadFromURL:(id)sender;
@@ -73,6 +76,8 @@
 
 - (void)registerForDragAndDrop;
 - (void)deregisterForDragAndDrop;
+
+- (NSArray *)deviceList;
 
 - (void)errorWithTitle:(NSString *)title message:(NSString *)message;
 
