@@ -11,7 +11,7 @@
 
 @implementation SMAppModel
 
-@synthesize deleteGUIDWhenFinished, guidPath, apkPath, infoDictionary, name, identifier, version, marketingVersion, iconPath, iconIsPreRendered;
+@synthesize deleteGUIDWhenFinished, guidPath, apkPath, infoDictionary, name, identifier, launchIdentifier, version, marketingVersion, iconPath, iconIsPreRendered;
 @synthesize executableName;
 @dynamic executablePath;
 
@@ -58,8 +58,17 @@
     NSRegularExpression *packIDRegex = [NSRegularExpression regularExpressionWithPattern:@"package:\\s*name='([^']+)'" options:0 error:nil];
     NSTextCheckingResult *packIdDump = [packIDRegex firstMatchInString:apkInfo options:0 range:NSMakeRange(0, [apkInfo length])];
     if(packIdDump){
-        self.identifier = [apkInfo substringWithRange:[packIdDump rangeAtIndex:1]];    }else{
-        self.identifier = @"Unknown";
+        self.identifier = [apkInfo substringWithRange:[packIdDump rangeAtIndex:1]];
+    }else{
+        return nil;
+    }
+    
+    NSRegularExpression *packActivityIDRegex = [NSRegularExpression regularExpressionWithPattern:@"launchable-activity:\\s+name='([^']+)'" options:0 error:nil];
+    NSTextCheckingResult *packActivityIdDump = [packActivityIDRegex firstMatchInString:apkInfo options:0 range:NSMakeRange(0, [apkInfo length])];
+    if(packActivityIdDump){
+        self.launchIdentifier = [NSString stringWithFormat:@"%@/%@", self.identifier, [apkInfo substringWithRange:[packActivityIdDump rangeAtIndex:1]]];
+    }else{
+        return nil;
     }
 	
 	self.executableName = @"CFBundleExecutable";
@@ -105,6 +114,7 @@
     NSLog(@"version: %@", self.version);
     NSLog(@"marketingVersion: %@", self.marketingVersion);
     NSLog(@"id: %@", self.identifier);
+    NSLog(@"launch activity: %@", self.launchIdentifier);
     NSLog(@"finalIcon: %@", self.iconPath);
 	
 	return self;

@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSString *apkPath;
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *identifier;
+@property (nonatomic, retain) NSString *launchIdentifier;
 @property (nonatomic, retain) NSString *version;
 @property (nonatomic, retain) NSString *marketingVersion;
 @property (nonatomic, retain) NSString *iconPath;

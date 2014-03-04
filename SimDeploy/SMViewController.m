@@ -398,6 +398,17 @@
 					  }];
 
     }else{
+        
+        NSLog(@"Launching APK: %@", self.pendingApp.launchIdentifier);
+        NSBundle *bundle = [NSBundle mainBundle];
+        NSString *adbPath = [bundle pathForAuxiliaryExecutable: @"adb"];
+        NSTask *task = [[NSTask alloc] init];
+        NSArray *args = [NSArray arrayWithObjects: @"-s", deviceString, @"shell", @"am", @"start", @"-n", self.pendingApp.launchIdentifier, nil];
+        [task setLaunchPath: adbPath];
+        [task setArguments: args];
+        
+        [task launch];
+        
         NSString *msg = [NSString stringWithFormat:@"%@ - Version: %@ (%@)", self.pendingApp.name, self.pendingApp.marketingVersion, self.pendingApp.version];
         [NSAlert beginAlertSheet:@"Install Successful!"
 						 message:msg

@@ -379,9 +379,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3DEAE81114AE94E400D239B4 /* Sim Deploy */ = {
+		3DEAE81114AE94E400D239B4 /* Android Deploy */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3DEAE83014AE94E400D239B4 /* Build configuration list for PBXNativeTarget "Sim Deploy" */;
+			buildConfigurationList = 3DEAE83014AE94E400D239B4 /* Build configuration list for PBXNativeTarget "Android Deploy" */;
 			buildPhases = (
 				3DEAE80E14AE94E400D239B4 /* Sources */,
 				3DEAE80F14AE94E400D239B4 /* Frameworks */,
@@ -393,7 +393,7 @@
 			);
 			dependencies = (
 			);
-			name = "Sim Deploy";
+			name = "Android Deploy";
 			productName = SimDeploy;
 			productReference = 3DEAE81214AE94E400D239B4 /* Sim Deploy.app */;
 			productType = "com.apple.product-type.application";
@@ -420,7 +420,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3DEAE81114AE94E400D239B4 /* Sim Deploy */,
+				3DEAE81114AE94E400D239B4 /* Android Deploy */,
 			);
 		};
 /* End PBXProject section */
@@ -659,7 +659,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3DEAE83014AE94E400D239B4 /* Build configuration list for PBXNativeTarget "Sim Deploy" */ = {
+		3DEAE83014AE94E400D239B4 /* Build configuration list for PBXNativeTarget "Android Deploy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3DEAE83114AE94E400D239B4 /* Debug */,
