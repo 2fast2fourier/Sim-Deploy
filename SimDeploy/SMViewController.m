@@ -288,44 +288,113 @@
 
 - (void)installPendingApp:(id)sender
 {
-
-	SMSimulatorModel *sim = [self selectedSimulator];
-	SMAppCompare appCompare = [sim compareInstalledAppsAgainstApp:self.pendingApp installedApp:nil];
-	
-	void (^installBlock)(void) = ^{
-		[[NSApplication sharedApplication] beginSheet:self.installPanel
-									   modalForWindow:self.mainWindow
-										modalDelegate:nil
-									   didEndSelector:nil
-										  contextInfo:nil];
-
-		
-		[[SMSimDeployer defaultDeployer] installApplication:self.pendingApp 
-													  clean:self.cleanInstallButton.state == NSOnState
-												 completion:^{
-													 [NSApp endSheet:self.installPanel];
-													 [self.installPanel orderOut:nil];
-													 [self showRestartAlertIfNeeded];
-												 }];
-
-	};
-	
-	if (SMAppCompareGreaterThan == appCompare) {
-		[NSAlert beginAlertSheet:@"Your Current Version is Newer!" 
-						 message:@"Your current installed version is newer, are you sure you want to downgrade?" 
-				   defaultButton:@"Downgrade" 
-				 alternateButton:@"Cancel" 
-					 otherButton:nil 
-						  window:[NSApp mainWindow] 
+	[[NSApplication sharedApplication] beginSheet:self.installPanel
+                                       modalForWindow:self.mainWindow
+									   modalDelegate:nil
+								       didEndSelector:nil
+                                       contextInfo:nil];
+    
+    NSLog(@"Installing APK: %@", self.pendingApp.apkPath);
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSString *adbPath = [bundle pathForAuxiliaryExecutable: @"adb"];
+    NSTask *task = [[NSTask alloc] init];
+    NSPipe *outputPipe = [NSPipe pipe];
+    NSArray *args = [NSArray arrayWithObjects: @"install", @"-r", self.pendingApp.apkPath, nil];
+    NSFileHandle *outputHandle = [outputPipe fileHandleForReading];
+    [task setStandardOutput: outputPipe];
+    [task setLaunchPath: adbPath];
+    [task setArguments: args];
+    
+    [task launch];
+    
+    NSMutableData *data = [[NSMutableData alloc] init];
+    NSData *readData;
+    
+    while ((readData = [outputHandle availableData])
+           && [readData length]) {
+        [data appendData: readData];
+    }
+    
+    NSString *outputString;
+    outputString = [[NSString alloc]
+                    initWithData: data
+                    encoding: NSASCIIStringEncoding];
+    NSLog(@"Result: %@", outputString);
+    
+    
+	[NSApp endSheet:self.installPanel];
+	[self.installPanel orderOut:nil];
+    
+    
+    
+    NSRegularExpression *resultRegex = [NSRegularExpression regularExpressionWithPattern:@"Failure\\s*\\[([^\\]]+)\\]" options:0 error:nil];
+    NSTextCheckingResult *resultMatch = [resultRegex firstMatchInString:outputString options:0 range:NSMakeRange(0, [outputString length])];
+    if(resultMatch){
+        NSString *failureMsg = [outputString substringWithRange:[resultMatch rangeAtIndex:1]];
+        [NSAlert beginAlertSheet:@"Error Installing APK!"
+						 message:failureMsg
+				   defaultButton:@"Ok"
+				 alternateButton:nil
+					 otherButton:nil
+						  window:[NSApp mainWindow]
 					  completion:^(NSInteger returnCode) {
-						  if (returnCode == NSAlertFirstButtonReturn) {
-							  installBlock();
-						  }
+						  //if (returnCode == NSAlertFirstButtonReturn) {
+							//  installBlock();
+						  //}
 					  }];
-		
-	} else {
-		installBlock();
-	}
+
+    }else{
+        NSString *msg = [NSString stringWithFormat:@"%@ - Version: %@ (%@)", self.pendingApp.name, self.pendingApp.marketingVersion, self.pendingApp.version];
+        [NSAlert beginAlertSheet:@"Install Successful!"
+						 message:msg
+				   defaultButton:@"Ok"
+				 alternateButton:nil
+					 otherButton:nil
+						  window:[NSApp mainWindow]
+					  completion:^(NSInteger returnCode) {
+						  //if (returnCode == NSAlertFirstButtonReturn) {
+                          //  installBlock();
+						  //}
+					  }];
+    }
+    
+//	SMSimulatorModel *sim = [self selectedSimulator];
+//	SMAppCompare appCompare = [sim compareInstalledAppsAgainstApp:self.pendingApp installedApp:nil];
+//	
+//	void (^installBlock)(void) = ^{
+//		[[NSApplication sharedApplication] beginSheet:self.installPanel
+//									   modalForWindow:self.mainWindow
+//										modalDelegate:nil
+//									   didEndSelector:nil
+//										  contextInfo:nil];
+//
+//		
+//		[[SMSimDeployer defaultDeployer] installApplication:self.pendingApp 
+//													  clean:self.cleanInstallButton.state == NSOnState
+//												 completion:^{
+//													 [NSApp endSheet:self.installPanel];
+//													 [self.installPanel orderOut:nil];
+//													 [self showRestartAlertIfNeeded];
+//												 }];
+//
+//	};
+//	
+//	if (SMAppCompareGreaterThan == appCompare) {
+//		[NSAlert beginAlertSheet:@"Your Current Version is Newer!" 
+//						 message:@"Your current installed version is newer, are you sure you want to downgrade?" 
+//				   defaultButton:@"Downgrade" 
+//				 alternateButton:@"Cancel" 
+//					 otherButton:nil 
+//						  window:[NSApp mainWindow] 
+//					  completion:^(NSInteger returnCode) {
+//						  if (returnCode == NSAlertFirstButtonReturn) {
+//							  installBlock();
+//						  }
+//					  }];
+//
+//	} else {
+//		installBlock();
+//	}
 }
 
 - (void)errorWithTitle:(NSString *)title message:(NSString *)message
@@ -404,7 +473,7 @@
 //	if (SMAppCompareNotInstalled == compare || nil == installedApp) {
 		self.installedVersionLabel.stringValue = @"";
 		self.installButton.title = @"Install";
-		self.cleanInstallButton.hidden = YES;
+		self.cleanInstallButton.hidden = NO;
 //	} else {
 //		NSMutableString *version = [NSMutableString stringWithFormat:@"Installed Version: %@", installedApp.marketingVersion];
 //		[version appendFormat:@" (%@)", installedApp.version];
