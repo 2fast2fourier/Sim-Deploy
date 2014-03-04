@@ -145,12 +145,12 @@ static NSString * const deviceIpadRetina = @"iPad (Retina)";
 		NSError *error;
 		
 		/* Create the app specifier */
-		NSString *path = app.mainBundle.bundlePath;
-		appSpec = [DTiPhoneSimulatorApplicationSpecifier specifierWithApplicationPath:path];
-		if (appSpec == nil) {
-			NSLog(@"Could not load application specification for %@", app.mainBundle.bundlePath);
-			return;
-		}
+//		NSString *path = app.mainBundle.bundlePath;
+//		appSpec = [DTiPhoneSimulatorApplicationSpecifier specifierWithApplicationPath:path];
+//		if (appSpec == nil) {
+//			NSLog(@"Could not load application specification for %@", app.mainBundle.bundlePath);
+//			return;
+//		}
 		
 		/* Set up the session configuration */
 		config = [[DTiPhoneSimulatorSessionConfig alloc] init];
@@ -376,29 +376,29 @@ static NSString * const deviceIpadRetina = @"iPad (Retina)";
 			continue;
 		}
 		
-		SMAppModel *appModel = [[SMAppModel alloc] initWithBundle:bundle];
-		if (nil != appModel) {
-			[appModel setDeleteGUIDWhenFinished:YES];
-			
-			// Some bug causes the executable to lose it's +x permissions. Do that here.
-			NSString *executable = (appModel.infoDictionary)[@"CFBundleExecutable"];
-			NSString *executablePath = [appModel.mainBundle.bundlePath stringByAppendingPathComponent:executable];
-						
-			const char *path = [executablePath cStringUsingEncoding:NSASCIIStringEncoding];
-			
-			/* Get the current mode. */
-			struct stat buf;
-			int error = stat(path, &buf);
-			/* check and handle error */
-			
-			/* Make the file user-executable. */
-			mode_t mode = buf.st_mode;
-			mode |= S_IXUSR;
-			error = chmod(path, mode);
-			/* check and handle error */
-			
-			return appModel;
-		}
+//		SMAppModel *appModel = [[SMAppModel alloc] initWithBundle:bundle];
+//		if (nil != appModel) {
+//			[appModel setDeleteGUIDWhenFinished:YES];
+//			
+//			// Some bug causes the executable to lose it's +x permissions. Do that here.
+//			NSString *executable = (appModel.infoDictionary)[@"CFBundleExecutable"];
+//			NSString *executablePath = [appModel.mainBundle.bundlePath stringByAppendingPathComponent:executable];
+//						
+//			const char *path = [executablePath cStringUsingEncoding:NSASCIIStringEncoding];
+//			
+//			/* Get the current mode. */
+//			struct stat buf;
+//			int error = stat(path, &buf);
+//			/* check and handle error */
+//			
+//			/* Make the file user-executable. */
+//			mode_t mode = buf.st_mode;
+//			mode |= S_IXUSR;
+//			error = chmod(path, mode);
+//			/* check and handle error */
+//			
+//			return appModel;
+//		}
 	}
 
 	return NO;

@@ -395,34 +395,34 @@
 		self.iconView.image = nil;
 	}
 	
-	SMSimulatorModel *sim = [self selectedSimulator];
-	SMAppModel *installedApp = nil;
-	SMAppCompare compare = [sim compareInstalledAppsAgainstApp:app installedApp:&installedApp];
+//	SMSimulatorModel *sim = [self selectedSimulator];
+//	SMAppModel *installedApp = nil;
+//	SMAppCompare compare = [sim compareInstalledAppsAgainstApp:app installedApp:&installedApp];
 	
 	self.installButton.enabled = YES;
 	
-	if (SMAppCompareNotInstalled == compare || nil == installedApp) {
+//	if (SMAppCompareNotInstalled == compare || nil == installedApp) {
 		self.installedVersionLabel.stringValue = @"";
 		self.installButton.title = @"Install";
 		self.cleanInstallButton.hidden = YES;
-	} else {
-		NSMutableString *version = [NSMutableString stringWithFormat:@"Installed Version: %@", installedApp.marketingVersion];
-		[version appendFormat:@" (%@)", installedApp.version];
-		self.installedVersionLabel.stringValue = version;
-		self.cleanInstallButton.hidden = NO;
-		
-		if (SMAppCompareLessThan == compare) {
-			self.installButton.title = @"Upgrade";
-		} else if (SMAppCompareGreaterThan == compare) {
-			self.installButton.title = @"Downgrade";
-		} else if (SMAppCompareSame == compare) {
-			versionsAreTheSame = YES;
-			self.installButton.enabled = NO;
-			self.installButton.title = @"Install";
-			self.installedVersionLabel.stringValue = [NSString stringWithFormat:@"This Version Is Already Installed."];
-		}
-
-	}
+//	} else {
+//		NSMutableString *version = [NSMutableString stringWithFormat:@"Installed Version: %@", installedApp.marketingVersion];
+//		[version appendFormat:@" (%@)", installedApp.version];
+//		self.installedVersionLabel.stringValue = version;
+//		self.cleanInstallButton.hidden = NO;
+//		
+//		if (SMAppCompareLessThan == compare) {
+//			self.installButton.title = @"Upgrade";
+//		} else if (SMAppCompareGreaterThan == compare) {
+//			self.installButton.title = @"Downgrade";
+//		} else if (SMAppCompareSame == compare) {
+//			versionsAreTheSame = YES;
+//			self.installButton.enabled = NO;
+//			self.installButton.title = @"Install";
+//			self.installedVersionLabel.stringValue = [NSString stringWithFormat:@"This Version Is Already Installed."];
+//		}
+//
+//	}
 	
 	self.appInfoView.installDisabled = ![self.installButton isEnabled];
 	[self updateInstallButton];
@@ -581,8 +581,8 @@
 			}		
 		}
 		
-		NSBundle *bundle = [NSBundle bundleWithPath:path];
-		SMAppModel *appModel = [[SMAppModel alloc] initWithBundle:bundle];
+//		NSBundle *bundle = [NSBundle bundleWithPath:path];
+		SMAppModel *appModel = [[SMAppModel alloc] initWithPath:path];
 				
 		newApp = appModel;
 		break;

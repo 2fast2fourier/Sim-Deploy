@@ -59,13 +59,13 @@
 		
 		for (NSString *appBundlePath in guidContents) {
 			NSString *fullPath = [guidPath stringByAppendingPathComponent:appBundlePath];
-			NSBundle *bundle = [NSBundle bundleWithPath:fullPath];
+//			NSBundle *bundle = [NSBundle bundleWithPath:fullPath];
 			
 			
-			SMAppModel *appModel = [[SMAppModel alloc] initWithBundle:bundle];
-			if (nil != appModel) {
-				[applications addObject:appModel];
-			}
+//			SMAppModel *appModel = [[SMAppModel alloc] initWithBundle:bundle];
+//			if (nil != appModel) {
+//				[applications addObject:appModel];
+//			}
 		}
 	}
 
@@ -128,7 +128,7 @@
 	}
 
 	NSString *destinationGUIDPath = [self createDummyGUIDDirectoryWithName:[NSString stringWithFormat:@"%@-%@", app.identifier, app.version]];
-	NSString *destinationBundlePath = [destinationGUIDPath stringByAppendingPathComponent:[app.mainBundle.bundlePath lastPathComponent]];
+//	NSString *destinationBundlePath = [destinationGUIDPath stringByAppendingPathComponent:[app.mainBundle.bundlePath lastPathComponent]];
 	NSFileManager *fm = [NSFileManager defaultManager];
 	NSError *error = nil;
 	
@@ -165,7 +165,7 @@
 			}
 			
 			// Remove Old App
-			[fm removeItemAtPath:installedMatch.mainBundle.bundlePath error:&error];
+//			[fm removeItemAtPath:installedMatch.mainBundle.bundlePath error:&error];
 			if (nil != error) {
 				NSLog(@"error: %@", error);
 				error = nil;
@@ -182,7 +182,8 @@
 	
 	
 	// Move App to new directory
-	[fm copyItemAtPath:app.mainBundle.bundlePath toPath:destinationBundlePath error:&error];	
+//	[fm copyItemAtPath:app.mainBu
+//    4ndle.bundlePath toPath:destinationBundlePath error:&error];
 	if (nil != error) {
 		NSLog(@"error: %@", error);
 		error = nil;

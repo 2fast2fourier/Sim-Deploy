@@ -40,7 +40,7 @@
 		// Check extension, needs to be .zip or .app
 		NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
 		NSString *file = [files lastObject];
-		if ([file hasSuffix:@".zip"] || [file hasSuffix:@".app"]){
+		if ([file hasSuffix:@".zip"] || [file hasSuffix:@".apk"]){
 			self.validDrag = YES;
 			return NSDragOperationCopy;
 		}

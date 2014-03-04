@@ -86,8 +86,8 @@
 		}		
 	}
 	
-	NSBundle *bundle = [NSBundle bundleWithPath:path];
-	SMAppModel *appModel = [[SMAppModel alloc] initWithBundle:bundle];
+//	NSBundle *bundle = [NSBundle bundleWithPath:path];
+	SMAppModel *appModel = [[SMAppModel alloc] initWithPath:path];
 	
 	if (nil == appModel) {
 		[self.viewController errorWithTitle:NSLocalizedString(@"Not a Valid Application", nil) 
@@ -129,16 +129,19 @@
 {
 	
 	NSString *filename = [url lastPathComponent];
-	if ([filename hasSuffix:@".zip"] || [filename hasSuffix:@".app"]) {
+	if ([filename hasSuffix:@".apk"]) {
 		return YES;
 	}
+//	if ([filename hasSuffix:@".zip"] || [filename hasSuffix:@".apk"]) {
+//		return YES;
+//	}
 	
 	// Allow Directories to be opened
-	BOOL directory = NO;
-	[[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&directory];
-	if (directory) {
-		return YES;
-	}
+//	BOOL directory = NO;
+//	[[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&directory];
+//	if (directory) {
+//		return YES;
+//	}
 	
 	return NO;
 }
