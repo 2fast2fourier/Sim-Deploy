@@ -581,7 +581,6 @@
 			}		
 		}
 		
-//		NSBundle *bundle = [NSBundle bundleWithPath:path];
 		SMAppModel *appModel = [[SMAppModel alloc] initWithPath:path];
 				
 		newApp = appModel;

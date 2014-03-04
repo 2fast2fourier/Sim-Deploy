@@ -17,7 +17,7 @@
 
 - (id)initWithPath:(NSString *)path;
 {
-	if (nil == path) {
+	if (nil == path || ![path hasSuffix:@".apk"]) {
 		return nil;
 	}
 	
@@ -201,7 +201,7 @@
 		return NO;
 	}
     
-    NSLog(tempApplicationPath);
+    NSLog(@"temppath: %@", tempApplicationPath);
     return tempApplicationPath;
 }
 

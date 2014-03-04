@@ -370,35 +370,18 @@ static NSString * const deviceIpadRetina = @"iPad (Retina)";
 	NSArray *contents = [fm contentsOfDirectoryAtPath:tempApplicationPath error:&error];
 	for (NSString *path in contents) {
 		NSString *fullPath = [tempApplicationPath stringByAppendingPathComponent:path];
-		NSBundle *bundle = [NSBundle bundleWithPath:fullPath];
 		
-		if (nil == bundle) {
+		if (![fullPath hasSuffix:@".apk"]) {
 			continue;
 		}
 		
-//		SMAppModel *appModel = [[SMAppModel alloc] initWithBundle:bundle];
-//		if (nil != appModel) {
-//			[appModel setDeleteGUIDWhenFinished:YES];
-//			
-//			// Some bug causes the executable to lose it's +x permissions. Do that here.
-//			NSString *executable = (appModel.infoDictionary)[@"CFBundleExecutable"];
-//			NSString *executablePath = [appModel.mainBundle.bundlePath stringByAppendingPathComponent:executable];
-//						
-//			const char *path = [executablePath cStringUsingEncoding:NSASCIIStringEncoding];
-//			
-//			/* Get the current mode. */
-//			struct stat buf;
-//			int error = stat(path, &buf);
-//			/* check and handle error */
-//			
-//			/* Make the file user-executable. */
-//			mode_t mode = buf.st_mode;
-//			mode |= S_IXUSR;
-//			error = chmod(path, mode);
-//			/* check and handle error */
-//			
-//			return appModel;
-//		}
+		SMAppModel *appModel = [[SMAppModel alloc] initWithPath:fullPath];
+		if (nil != appModel) {
+			[appModel setDeleteGUIDWhenFinished:YES];
+			
+            NSLog(@"APK Found: %@", fullPath);
+			return appModel;
+		}
 	}
 
 	return NO;
