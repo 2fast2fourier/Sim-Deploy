@@ -63,10 +63,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.spacemanlabs.simdeploy</string>
+			<string>com.bitsuites.anddeploy</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>simdeploy</string>
+				<string>anddeploy</string>
 			</array>
 		</dict>
 	</array>

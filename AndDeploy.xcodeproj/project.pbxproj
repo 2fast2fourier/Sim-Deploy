@@ -120,7 +120,7 @@
 		3DD744EB14B52B3C00EA0A46 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		3DD744F014B532E400EA0A46 /* SMIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMIconView.h; sourceTree = "<group>"; };
 		3DD744F114B532E400EA0A46 /* SMIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMIconView.m; sourceTree = "<group>"; };
-		3DEAE81214AE94E400D239B4 /* Sim Deploy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sim Deploy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DEAE81214AE94E400D239B4 /* Sim Deploy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = "Sim Deploy.app"; path = "Android Deploy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DEAE81614AE94E400D239B4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		3DEAE81914AE94E400D239B4 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		3DEAE81A14AE94E400D239B4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };

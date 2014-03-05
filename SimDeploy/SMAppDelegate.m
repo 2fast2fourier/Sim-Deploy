@@ -64,7 +64,7 @@
 
     
     // Modified to always use URL starting after the scheme
-    [urlString replaceOccurrencesOfString:@"simdeploy://" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, urlString.length)];
+    [urlString replaceOccurrencesOfString:@"anddeploy://" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, urlString.length)];
     
     if (![urlString hasPrefix:@"http://"] && ![urlString hasPrefix:@"https://"]) {
         [urlString insertString:@"http://" atIndex:0];
