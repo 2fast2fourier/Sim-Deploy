@@ -31,7 +31,6 @@ static NSString * const deviceIpadRetina = @"iPad (Retina)";
 @synthesize download;
 @synthesize simulators;
 @synthesize downloadResponse;
-@synthesize sdkRoot;
 
 + (SMSimDeployer *)defaultDeployer {
 	static dispatch_once_t pred;
@@ -51,23 +50,6 @@ static NSString * const deviceIpadRetina = @"iPad (Retina)";
 	self = [super init];
 	if (nil == self) {
 		return nil;
-	}
-	
-
-	NSArray *roots = [DTiPhoneSimulatorSystemRoot knownRoots];
-	for (DTiPhoneSimulatorSystemRoot *root in roots) {
-		if (nil == sdkRoot) {
-			self.sdkRoot = root;
-			continue;
-		}
-		
-		NSString *oldVersion = [sdkRoot sdkVersion];
-		NSString *newVersion = [root sdkVersion];
-		BOOL newer = ([newVersion compare:oldVersion options:NSNumericSearch] != NSOrderedAscending);
-		
-		if (newer) {
-			self.sdkRoot = root;
-		}		
 	}
 
 	
@@ -129,57 +111,6 @@ static NSString * const deviceIpadRetina = @"iPad (Retina)";
 	if (nil == app) {
 		return;
 	}
-	
-	[self killiOSSimulator];
-	
-	if (nil != session) {
-//		[session requestEndWithTimeout:0];
-		session = nil;
-	}
-	
-	double delayInSeconds = 0.1;
-	dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-	dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-		DTiPhoneSimulatorApplicationSpecifier *appSpec;
-		DTiPhoneSimulatorSessionConfig *config;
-		NSError *error;
-		
-		/* Create the app specifier */
-//		NSString *path = app.mainBundle.bundlePath;
-//		appSpec = [DTiPhoneSimulatorApplicationSpecifier specifierWithApplicationPath:path];
-//		if (appSpec == nil) {
-//			NSLog(@"Could not load application specification for %@", app.mainBundle.bundlePath);
-//			return;
-//		}
-		
-		/* Set up the session configuration */
-		config = [[DTiPhoneSimulatorSessionConfig alloc] init];
-		[config setApplicationToSimulateOnStart: appSpec];
-		[config setSimulatedSystemRoot: sdkRoot];
-		[config setSimulatedApplicationShouldWaitForDebugger: NO];
-		
-		[config setSimulatedApplicationLaunchArgs:@[]];
-		[config setSimulatedApplicationLaunchEnvironment:[[NSProcessInfo processInfo] environment]];
-		
-		[config setLocalizedClientName:@"Sim Deploy"];
-		
-        [config setSimulatedDeviceFamily:([dType isEqualToString:@"iphone"]) ? @1 : @2];
-        
-        [self changeDeviceType:dType retina:retina isTallDevice:tall];
-		
-		/* Start the session */
-		session = [[DTiPhoneSimulatorSession alloc] init];
-		[session setDelegate: self];
-		[session setSimulatedApplicationPID: @35];
-		//	if (uuid!=nil)
-		//	{
-		//		[session setUuid:uuid];
-		//	}
-		
-		if (![session requestStartWithConfig:config timeout:35 error:&error]) {
-			NSLog(@"Could not start simulator session: %@", error);
-		}
-	});
 }
 
 - (void)killApp:(SMAppModel *)app
@@ -478,23 +409,6 @@ static NSString * const deviceIpadRetina = @"iPad (Retina)";
 	}
 	
 	downloadCompletionBlock = nil;
-}
-
-#pragma mark - Simulator
-
-// from DTiPhoneSimulatorSessionDelegate protocol
-- (void) session: (DTiPhoneSimulatorSession *) aSession didEndWithError: (NSError *) error {
-    // Do we care about this?
-    NSLog(@"Did end with error: %@", error);
-	session = nil;
-}
-
-// from DTiPhoneSimulatorSessionDelegate protocol
-- (void) session: (DTiPhoneSimulatorSession *)aSession didStart: (BOOL) started withError: (NSError *) error {
-    if(!started){
-        NSLog(@"Error starting simulator: %@", error);
-        session = nil;
-    }
 }
 
 

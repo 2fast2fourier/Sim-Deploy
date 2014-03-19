@@ -9,12 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "SMAppModel.h"
 #import "SMSimulatorModel.h"
-#import "iPhoneSimulator.h"
 
 static NSString * const kDeviceTypePhone = @"iphone";
 static NSString * const kDeviceTypeiPad = @"ipad";
 
-@interface SMSimDeployer : NSObject <NSURLDownloadDelegate, DTiPhoneSimulatorSessionDelegate>
+@interface SMSimDeployer : NSObject <NSURLDownloadDelegate>
 {
 	void (^downloadCompletionBlock)(BOOL);
 	void (^percentCompleteBlock)(CGFloat);
@@ -22,17 +21,12 @@ static NSString * const kDeviceTypeiPad = @"ipad";
 	NSString *tempFile;
 	NSUInteger bytesReceived;
 	
-	/** Instance used to find the required simulator platform SDK */
-	DTiPhoneSimulatorSystemRoot *sdkRoot;
-	DTiPhoneSimulatorSession *session;
-	
 	BOOL installing;
 	NSOperationQueue *installQueue;
 	void (^installCompletion)(void);
 }
 
 //@property (nonatomic, retain) SMAppModel *downloadedApplication;
-@property (nonatomic, retain) DTiPhoneSimulatorSystemRoot *sdkRoot;
 @property (nonatomic, retain) NSURLDownload *download;
 @property (nonatomic, retain) NSURLResponse *downloadResponse;
 @property (nonatomic, retain) NSArray *simulators;
